@@ -54,10 +54,32 @@ const Map = ({
           let marker = new kakao.maps.Marker({
             map: map,
             position: position,
-            title: item.clCdNm,
+            title: item.yadmNm,
           });
+
+          var customOverlay = new kakao.maps.CustomOverlay({
+            map: map,
+            content: `<div style="border: 1px solid gray; border-radius: 5px; padding:0 5px;background:#fff;">${item.yadmNm}</div>`,
+            position: position, // 커스텀 오버레이를 표시할 좌표
+            xAnchor: 0.5, // 컨텐츠의 x 위치
+            yAnchor: 3, // 컨텐츠의 y 위치
+          });
+
+          customOverlay.setVisible(false);
+
+          // 클릭이벤트
           kakao.maps.event.addListener(marker, "click", function () {
             onClickMarker(item.YPos, item.XPos);
+          });
+
+          // 마우스오버 이벤트
+          kakao.maps.event.addListener(marker, "mouseover", function () {
+            customOverlay.setVisible(true);
+          });
+
+          // 마우스아웃 이벤트
+          kakao.maps.event.addListener(marker, "mouseout", function () {
+            customOverlay.setVisible(false);
           });
           newMarkers.push(marker);
         });

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Details = ({ detailsData }) => {
+  console.log(detailsData);
   return (
     <div
       id="details"

@@ -44,9 +44,10 @@ const Service = () => {
 
   //선택된 마커의 병원정보는 detailsData에 담는 함수
   const onClickMarker = (YPos, XPos) => {
-    setDetailsData(
-      data.filter((item) => item.YPos === YPos && item.XPos === XPos)[0]
+    const datas = data.filter(
+      (item) => item.YPos === YPos && item.XPos === XPos
     );
+    setDetailsData(datas[datas.length - 1]);
   };
 
   return (
