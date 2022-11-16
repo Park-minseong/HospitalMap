@@ -11,6 +11,7 @@ const Service = () => {
   const [centerYPos, setCenterYPos] = useState("");
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
+  const [detailsData, setDetailsData] = useState({});
 
   //geolocation을 사용할 수 있으면 내 lat,long 내 현재 좌표로 변경
   useEffect(() => {
@@ -36,9 +37,17 @@ const Service = () => {
       });
   }, [radius, centerXPos, centerYPos]);
 
+  //지도 배율,위치 변경 시 자동으로 getDataApi함수 호출
   useEffect(() => {
     if (lat !== 0 && long !== 0) getDataApi();
   }, [radius, centerXPos, centerYPos]);
+
+  //선택된 마커의 병원정보는 detailsData에 담는 함수
+  const onClickMarker = (YPos, XPos) => {
+    setDetailsData(
+      data.filter((item) => item.YPos === YPos && item.XPos === XPos)[0]
+    );
+  };
 
   return (
     <div
@@ -65,10 +74,11 @@ const Service = () => {
             setCenterXPos={setCenterXPos}
             setCenterYPos={setCenterYPos}
             getDataApi={getDataApi}
+            onClickMarker={onClickMarker}
           ></Map>
         )}
 
-        <Details></Details>
+        <Details detailsData={detailsData}></Details>
       </div>
       <SelectedList></SelectedList>
     </div>

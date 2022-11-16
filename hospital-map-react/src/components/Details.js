@@ -1,6 +1,6 @@
 import React from "react";
 
-const Details = () => {
+const Details = ({ detailsData }) => {
   return (
     <div
       id="details"
@@ -10,7 +10,7 @@ const Details = () => {
         marginTop: "10px",
       }}
     >
-      상세정보
+      {detailsData.yadmNm}
     </div>
   );
 };

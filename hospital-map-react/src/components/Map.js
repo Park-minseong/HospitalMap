@@ -10,6 +10,7 @@ const Map = ({
   lat,
   long,
   getDataApi,
+  onClickMarker,
 }) => {
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
@@ -46,18 +47,22 @@ const Map = ({
 
   useEffect(() => {
     if (map !== undefined) {
-      const newMarkers = [];
-      data.forEach((item) => {
-        let position = new kakao.maps.LatLng(item.YPos, item.XPos);
-        let marker = new kakao.maps.Marker({
-          map: map,
-          position: position,
-          title: item.clCdNm,
+      if (map.getLevel() <= 4) {
+        const newMarkers = [];
+        data.forEach((item) => {
+          let position = new kakao.maps.LatLng(item.YPos, item.XPos);
+          let marker = new kakao.maps.Marker({
+            map: map,
+            position: position,
+            title: item.clCdNm,
+          });
+          kakao.maps.event.addListener(marker, "click", function () {
+            onClickMarker(item.YPos, item.XPos);
+          });
+          newMarkers.push(marker);
         });
-        newMarkers.push(marker);
-        console.log(newMarkers);
-      });
-      setMarkers([...newMarkers]);
+        setMarkers([...newMarkers]);
+      }
     }
   }, [map, data]);
 
@@ -121,14 +126,10 @@ const Map = ({
 
   if (map) {
     //지도 드래그 이벤트 발생 시
-    kakao.maps.event.addListener(map, "dragend", function () {
-      reloadData();
-    });
+    kakao.maps.event.addListener(map, "dragend", reloadData);
 
     //지도 확대/축소 이벤트 발생 시
-    kakao.maps.event.addListener(map, "zoom_changed", function () {
-      reloadData();
-    });
+    kakao.maps.event.addListener(map, "zoom_changed", reloadData);
   }
 
   return (
