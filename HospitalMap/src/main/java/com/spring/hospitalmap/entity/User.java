@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Data;
 
 @Data
@@ -11,7 +13,9 @@ import lombok.Data;
 @Table(name="T_USER")
 public class User {
 	@Id
-	String userId;
+	private String userId;
 	
-	String userPw;
+	private String userPw;
+
+	private String role = "ROLE_USER";
 }
