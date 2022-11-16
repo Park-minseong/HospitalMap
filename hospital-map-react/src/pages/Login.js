@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../apiConfig";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [regUserId, setRegUserId] = useState("");
@@ -10,6 +12,20 @@ const Login = () => {
 
   const onSubmitLogin = (e) => {
     e.preventDefault();
+    axios
+      .post(`${API_URL}/user/login`, { userId: userId, userPw: userPw })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.user !== null) {
+          window.sessionStorage.setItem(
+            "ACCESS_TOKEN",
+            response.data.user.token
+          );
+          navigate("/");
+        } else {
+          alert("로그인정보를 확인해주세요");
+        }
+      });
   };
   const onSubmitReg = (e) => {
     e.preventDefault();
@@ -17,6 +33,13 @@ const Login = () => {
       .post(`${API_URL}/user/join`, { userId: regUserId, userPw: regUserPw })
       .then((response) => {
         console.log(response.data);
+        if (response.data.result === "successed") {
+          alert("회원가입 완료");
+          setRegUserId("");
+          setRegUserPw("");
+        } else {
+          alert("다시 시도해주세요");
+        }
       });
   };
 
