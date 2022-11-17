@@ -12,8 +12,6 @@ const Details = ({ detailsData }) => {
       .then((response) => console.log(response.data));
   };
 
-  console.log(detailsData);
-
   return (
     <div
       id="details"

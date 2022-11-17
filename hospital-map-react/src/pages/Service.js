@@ -12,6 +12,7 @@ const Service = () => {
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
   const [detailsData, setDetailsData] = useState({});
+  const [selectedList, setSelectedList] = useState([]);
 
   // geolocation을 사용할 수 있으면 내 lat,long 내 현재 좌표로 변경
   useEffect(() => {
@@ -73,7 +74,10 @@ const Service = () => {
 
         <Details detailsData={detailsData}></Details>
       </div>
-      <SelectedList></SelectedList>
+      <SelectedList
+        selectedList={selectedList}
+        setSelectedList={setSelectedList}
+      ></SelectedList>
     </div>
   );
 };

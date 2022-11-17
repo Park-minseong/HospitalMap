@@ -1,9 +1,12 @@
 package com.spring.hospitalmap.service.selected.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.hospitalmap.entity.Selected;
+import com.spring.hospitalmap.entity.User;
 import com.spring.hospitalmap.repository.SelectedRepository;
 import com.spring.hospitalmap.service.selected.SelectedService;
 
@@ -16,6 +19,14 @@ public class SelectedServiceImpl implements SelectedService {
 	@Override
 	public Selected saveInfo(Selected selected) {
 		return selectedRepository.save(selected);
+	}
+
+	@Override
+	public List<Selected> getSelectedListByUserId(String userId) {
+		User user = new User();
+		user.setUserId(userId);
+		
+		return selectedRepository.findByUser(user);
 	}
 
 }
