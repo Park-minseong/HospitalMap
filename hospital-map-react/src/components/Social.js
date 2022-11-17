@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { API_URL } from "../apiConfig";
 
 const Social = () => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
 

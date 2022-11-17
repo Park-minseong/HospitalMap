@@ -1,7 +1,11 @@
+import axios from "axios";
 import React from "react";
 
 const Details = ({ detailsData }) => {
-  console.log(detailsData);
+  const onClickSave = () => {
+    axios.post("/");
+  };
+
   return (
     <div
       id="details"
@@ -12,6 +16,9 @@ const Details = ({ detailsData }) => {
       }}
     >
       {detailsData.yadmNm}
+      <button type="button" onClick={onClickSave}>
+        저장하기
+      </button>
     </div>
   );
 };

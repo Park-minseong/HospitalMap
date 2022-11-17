@@ -10,7 +10,7 @@ const Map = ({
   lat,
   long,
   getDataApi,
-  onClickMarker,
+  setDetailsData,
 }) => {
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
@@ -95,8 +95,9 @@ const Map = ({
           customOverlay.setVisible(false);
 
           // 클릭이벤트
+          // 선택된 마커의 병원정보는 detailsData에 담는다
           kakao.maps.event.addListener(marker, "click", function () {
-            onClickMarker(item.YPos, item.XPos);
+            setDetailsData(item);
           });
 
           // 마우스오버 이벤트

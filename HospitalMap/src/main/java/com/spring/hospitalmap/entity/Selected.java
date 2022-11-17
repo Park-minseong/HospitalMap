@@ -1,7 +1,6 @@
 package com.spring.hospitalmap.entity;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +9,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 
@@ -20,14 +21,21 @@ import lombok.Data;
 public class Selected {
 
 	@Id
-	private String yadmNm;
+	private String ykiho;
 	
 	@Id
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="userId")
 	private User user;
 	
-	private String selDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
+	private String yadmNm;
+	
+	private String addr;
+	
+	private int postNo;
+	
+	@CreationTimestamp
+	private LocalDateTime insDate;
 	
 	
 }
