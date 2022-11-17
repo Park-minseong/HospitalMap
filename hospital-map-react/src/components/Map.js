@@ -45,6 +45,33 @@ const Map = ({
     setMap(new kakao.maps.Map(container, options));
   }, []);
 
+  //맵 로딩 시 최초 1회 실행
+  useEffect(() => {
+    if (map !== undefined) {
+      //내위치 마커표시 시작
+      let position = new kakao.maps.LatLng(lat, long);
+
+      // 마커 위에 표시할 인포윈도우를 생성한다
+      var myInfowindow = new kakao.maps.InfoWindow({
+        content:
+          '<div style="text-align:center; width:150px; padding:5px; font-size: 15px">현재 위치</div>', // 인포윈도우에 표시할 내용
+      });
+
+      //내위치 마커
+      let myMarker = new kakao.maps.Marker({
+        map: map,
+        position: position,
+        title: "내위치",
+      });
+
+      // 인포윈도우를 지도에 표시한다
+      myInfowindow.open(map, myMarker);
+      //내위치 마커표시 끝
+
+      reloadData();
+    }
+  }, [map]);
+
   useEffect(() => {
     if (map !== undefined) {
       if (map.getLevel() <= 4) {
@@ -87,33 +114,6 @@ const Map = ({
       }
     }
   }, [map, data]);
-
-  //맵 로딩 시 최초 1회 실행
-  useEffect(() => {
-    if (map !== undefined) {
-      //내위치 마커표시 시작
-      let position = new kakao.maps.LatLng(lat, long);
-
-      // 마커 위에 표시할 인포윈도우를 생성한다
-      var myInfowindow = new kakao.maps.InfoWindow({
-        content:
-          '<div style="text-align:center; width:150px; padding:5px; font-size: 15px">현재 위치</div>', // 인포윈도우에 표시할 내용
-      });
-
-      //내위치 마커
-      let myMarker = new kakao.maps.Marker({
-        map: map,
-        position: position,
-        title: "내위치",
-      });
-
-      // 인포윈도우를 지도에 표시한다
-      myInfowindow.open(map, myMarker);
-      //내위치 마커표시 끝
-
-      reloadData();
-    }
-  }, [map]);
 
   const reloadData = () => {
     if (map.getLevel() > 4) {

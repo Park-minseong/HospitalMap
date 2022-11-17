@@ -8,4 +8,6 @@ public interface UserService {
 
 	User login(String userId, String userPw);
 
+	User getUserInfoByUserId(String string);
+
 }

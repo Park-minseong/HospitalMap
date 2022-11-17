@@ -1,5 +1,7 @@
 package com.spring.hospitalmap.service.user.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,17 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public User getUserInfoByUserId(String string) {
+		Optional<User> user = userRepository.findById(string);
+		
+		if(user.isPresent()) {
+			return user.get();
+		}else {
+			return null;
+		}
 	}
 
 

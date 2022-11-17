@@ -32,7 +32,7 @@ const Service = () => {
         `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=kS3LFJtXMu8jwui1luQ%2Fc5W2TWBrWX3BXa9jxOYO6s6bF3%2Bfp80rND5ux8MvizXc4BrqltuFIVM74BhzM%2FAMPQ%3D%3D&xPos=${centerXPos}&yPos=${centerYPos}&numOfRows=1000&radius=${radius}`
       )
       .then((response) => {
-        console.log(response.data.response.body.totalCount);
+        console.log(response.data);
         setData([...response.data.response.body.items.item]);
       });
   }, [radius, centerXPos, centerYPos]);

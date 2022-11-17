@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../apiConfig";
 import { useNavigate } from "react-router";
+import kakaoLogin from "../images/kakao_login_medium.png";
+import { KAKAO_AUTH_URL } from "../libs/Oauth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const Login = () => {
   const onSubmitLogin = (e) => {
     e.preventDefault();
     axios
-      .post(`${API_URL}/user/login`, { userId: userId, userPw: userPw })
+      .post(`${API_URL}/login`, { userId: userId, userPw: userPw })
       .then((response) => {
         console.log(response.data);
         if (response.data.user !== null) {
@@ -30,7 +32,7 @@ const Login = () => {
   const onSubmitReg = (e) => {
     e.preventDefault();
     axios
-      .post(`${API_URL}/user/join`, { userId: regUserId, userPw: regUserPw })
+      .post(`${API_URL}/join`, { userId: regUserId, userPw: regUserPw })
       .then((response) => {
         console.log(response.data);
         if (response.data.result === "successed") {
@@ -69,6 +71,9 @@ const Login = () => {
             }}
           />
           <button type="submit">로그인</button>
+          <a href={KAKAO_AUTH_URL}>
+            <img src={kakaoLogin} alt="" />
+          </a>
         </fieldset>
       </form>
 
