@@ -3,8 +3,16 @@ import React from "react";
 
 const Details = ({ detailsData }) => {
   const onClickSave = () => {
-    axios.post("/");
+    axios
+      .post("/saveinfo", detailsData, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("ACCESS_TOKEN"),
+        },
+      })
+      .then((response) => console.log(response.data));
   };
+
+  console.log(detailsData);
 
   return (
     <div
@@ -15,10 +23,11 @@ const Details = ({ detailsData }) => {
         marginTop: "10px",
       }}
     >
-      {detailsData.yadmNm}
-      <button type="button" onClick={onClickSave}>
-        저장하기
-      </button>
+      {Object.keys(detailsData).length !== 0 && (
+        <button type="button" onClick={onClickSave}>
+          저장하기
+        </button>
+      )}
     </div>
   );
 };
