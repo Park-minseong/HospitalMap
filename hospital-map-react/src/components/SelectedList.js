@@ -28,7 +28,7 @@ const SelectedList = ({ selectedList, setSelectedList }) => {
         marginLeft: "10px",
         minWidth: "400px",
         height: "100%",
-        padding: "5px",
+        padding: "5px 1px 5px 5px",
         boxSizing: "border-box",
         border: "1px solid gray",
         overflowY: "scroll",
