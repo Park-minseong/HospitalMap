@@ -1,11 +1,14 @@
 package com.spring.hospitalmap.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +26,11 @@ public class SelectedController {
 	SelectedService selectedService;
 	
 	@PostMapping("/saveinfo")
-	public Map<String, Object> saveInfo(@RequestBody Selected selected, @AuthenticationPrincipal String userId){
+	public Map<String, Object> saveInfo(@RequestBody Selected selected, @AuthenticationPrincipal String userId, @PageableDefault(page = 0, size = 4, sort="insDate" ,direction=Direction.DESC) Pageable pageable){
 		try {
+			
+			System.out.println(selected);
+			
 			User user = new User();
 			user.setUserId(userId);
 			
@@ -35,6 +41,8 @@ public class SelectedController {
 			Map<String, Object> resMap = new HashMap<String, Object>();
 
 			if (savedSelected != null) {
+				List<Selected> selectedList = selectedService.getSelectedListByUserId(userId,pageable);
+				resMap.put("selectedList", selectedList);
 				resMap.put("result", "successed");
 				return resMap;
 			}else {
@@ -47,15 +55,15 @@ public class SelectedController {
 			resMap.put("error", e.getMessage());
 			return resMap;
 		}
-		
+
 	}
+
 	@GetMapping("/getSelectedList")
-	public Map<String, Object> getSelectedList( @AuthenticationPrincipal String userId){
+	public Map<String, Object> getSelectedList(@AuthenticationPrincipal String userId, @PageableDefault(page = 0, size = 10, sort = "insDate", direction = Direction.DESC) Pageable pageable) {
 		try {
-			System.out.println(userId+"//////////////////////////////");
 			Map<String, Object> resMap = new HashMap<String, Object>();
 			if (userId != "anonymousUser") {
-				List<Selected> selectedList = selectedService.getSelectedListByUserId(userId);
+				List<Selected> selectedList = selectedService.getSelectedListByUserId(userId, pageable);
 
 				resMap.put("result", "successed");
 				resMap.put("selectedList", selectedList);

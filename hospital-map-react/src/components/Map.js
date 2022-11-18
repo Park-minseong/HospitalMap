@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 const { kakao } = window;
 
@@ -75,7 +75,7 @@ const Map = ({
   useEffect(() => {
     if (map !== undefined) {
       if (map.getLevel() <= 4) {
-        const newMarkers = [];
+        const newMarkers = [...markers];
         data.forEach((item) => {
           let position = new kakao.maps.LatLng(item.YPos, item.XPos);
           let marker = new kakao.maps.Marker({
@@ -111,49 +111,66 @@ const Map = ({
           });
           newMarkers.push(marker);
         });
+
         setMarkers([...newMarkers]);
       }
     }
   }, [map, data]);
 
+  useEffect(() => {
+    if (map !== undefined) {
+      const sdasdsdf = () => {
+        reloadData();
+        kakao.maps.event.removeListener(map, "zoom_changed", sdasdsdf);
+      };
+
+      const sdasdsddf = () => {
+        reloadData();
+
+        kakao.maps.event.removeListener(map, "dragend", sdasdsddf);
+      };
+      //지도 확대,축소 이벤트 발생 시
+      kakao.maps.event.addListener(map, "zoom_changed", sdasdsdf);
+
+      //지도 드래그 이벤트 발생 시
+      kakao.maps.event.addListener(map, "dragend", sdasdsddf);
+    }
+  }, [data, markers]);
+
   const reloadData = () => {
-    if (map.getLevel() > 4) {
-      setMarkers(
-        markers.map((marker) => {
-          marker.setMap(null);
-          return marker;
-        })
-      );
-    } else {
-      let center = map.getCenter();
-      setCenterXPos(center.getLng());
-      setCenterYPos(center.getLat());
+    console.log(markers);
+    if (map !== undefined) {
+      if (map.getLevel() > 4) {
+        // setMarkers(() => {
+        //   markers.map((marker) => {
+        //     marker.setMap(null);
+        //     return marker;
+        //   });
+        //   return [];
+        // });
+      } else {
+        let center = map.getCenter();
+        setCenterXPos(center.getLng());
+        setCenterYPos(center.getLat());
 
-      // 지도의 현재 영역을 얻어옵니다
-      let bounds = map.getBounds();
+        // 지도의 현재 영역을 얻어옵니다
+        let bounds = map.getBounds();
 
-      // 영역의 남서쪽 좌표를 얻어옵니다
-      let swLatLng = bounds.getSouthWest();
+        // 영역의 남서쪽 좌표를 얻어옵니다
+        let swLatLng = bounds.getSouthWest();
 
-      //지도 중앙과 끝점의 거리(반경)
-      setRadius(
-        getDistanceKm(
-          center.getLat(),
-          center.getLng(),
-          swLatLng.getLat(),
-          swLatLng.getLng()
-        )
-      );
+        //지도 중앙과 끝점의 거리(반경)
+        setRadius(
+          getDistanceKm(
+            center.getLat(),
+            center.getLng(),
+            swLatLng.getLat(),
+            swLatLng.getLng()
+          )
+        );
+      }
     }
   };
-
-  if (map) {
-    //지도 드래그 이벤트 발생 시
-    kakao.maps.event.addListener(map, "dragend", reloadData);
-
-    //지도 확대/축소 이벤트 발생 시
-    kakao.maps.event.addListener(map, "zoom_changed", reloadData);
-  }
 
   return (
     <div
@@ -161,6 +178,8 @@ const Map = ({
       style={{
         width: "100%",
         height: "calc(100% - 200px)",
+        boxSizing: "border-box",
+        border: " 1px solid gray",
       }}
     ></div>
   );

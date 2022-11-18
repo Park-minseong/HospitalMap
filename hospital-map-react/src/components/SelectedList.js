@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ListItem from "./ListItem";
 
 const SelectedList = ({ selectedList, setSelectedList }) => {
   const [status, setStatus] = useState("");
@@ -24,15 +25,19 @@ const SelectedList = ({ selectedList, setSelectedList }) => {
     <div
       id="SelectedList"
       style={{
+        marginLeft: "10px",
         minWidth: "400px",
         height: "100%",
-        background: "gray",
+        padding: "5px",
+        boxSizing: "border-box",
+        border: "1px solid gray",
+        overflowY: "scroll",
       }}
     >
       {status === "유저정보가 없습니다." ? (
         <div>유저정보가 없습니다.</div>
       ) : selectedList.length > 0 ? (
-        selectedList.map((data, index) => <div key={index}>{data.yadmNm}</div>)
+        selectedList.map((data, index) => <ListItem key={index} data={data} />)
       ) : (
         <div>저장된 병원이 없습니다.</div>
       )}

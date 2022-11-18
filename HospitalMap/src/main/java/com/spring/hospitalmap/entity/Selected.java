@@ -32,7 +32,15 @@ public class Selected {
 	
 	private String addr;
 	
-	private int postNo;
+	private String postNo;
+	
+	private String XPos;
+	
+	private String YPos;
+	
+	private String telno;
+	
+	private String hospUrl;
 	
 	@CreationTimestamp
 	private LocalDateTime insDate;

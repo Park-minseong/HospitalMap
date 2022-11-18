@@ -72,7 +72,11 @@ const Service = () => {
           ></Map>
         )}
 
-        <Details detailsData={detailsData}></Details>
+        <Details
+          detailsData={detailsData}
+          selectedList={selectedList}
+          setSelectedList={setSelectedList}
+        ></Details>
       </div>
       <SelectedList
         selectedList={selectedList}

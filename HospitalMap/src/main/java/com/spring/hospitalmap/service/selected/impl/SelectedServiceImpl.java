@@ -3,6 +3,7 @@ package com.spring.hospitalmap.service.selected.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.spring.hospitalmap.entity.Selected;
@@ -22,11 +23,11 @@ public class SelectedServiceImpl implements SelectedService {
 	}
 
 	@Override
-	public List<Selected> getSelectedListByUserId(String userId) {
+	public List<Selected> getSelectedListByUserId(String userId,Pageable pageable) {
 		User user = new User();
 		user.setUserId(userId);
 		
-		return selectedRepository.findByUser(user);
+		return selectedRepository.findByUserOrderByInsDateDesc(user, pageable);
 	}
 
 }
