@@ -26,7 +26,7 @@ public class SelectedController {
 	SelectedService selectedService;
 	
 	@PostMapping("/saveinfo")
-	public Map<String, Object> saveInfo(@RequestBody Selected selected, @AuthenticationPrincipal String userId, @PageableDefault(page = 0, size = 4, sort="insDate" ,direction=Direction.DESC) Pageable pageable){
+	public Map<String, Object> saveInfo(@RequestBody Selected selected, @AuthenticationPrincipal String userId){
 		try {
 			
 			System.out.println(selected);
@@ -41,12 +41,11 @@ public class SelectedController {
 			Map<String, Object> resMap = new HashMap<String, Object>();
 
 			if (savedSelected != null) {
-				List<Selected> selectedList = selectedService.getSelectedListByUserId(userId,pageable);
-				resMap.put("selectedList", selectedList);
+				resMap.put("savedSelected", savedSelected);
 				resMap.put("result", "successed");
 				return resMap;
 			}else {
-				resMap.put("result", "failed");
+				resMap.put("result", "already");
 				return resMap;
 			}
 			
@@ -59,8 +58,9 @@ public class SelectedController {
 	}
 
 	@GetMapping("/getSelectedList")
-	public Map<String, Object> getSelectedList(@AuthenticationPrincipal String userId, @PageableDefault(page = 0, size = 10, sort = "insDate", direction = Direction.DESC) Pageable pageable) {
+	public Map<String, Object> getSelectedList(@AuthenticationPrincipal String userId, @PageableDefault(page = 0, size = 4, sort = "insDate", direction = Direction.ASC) Pageable pageable) {
 		try {
+			
 			Map<String, Object> resMap = new HashMap<String, Object>();
 			if (userId != "anonymousUser") {
 				List<Selected> selectedList = selectedService.getSelectedListByUserId(userId, pageable);

@@ -81,6 +81,7 @@ const Service = () => {
       <SelectedList
         selectedList={selectedList}
         setSelectedList={setSelectedList}
+        setDetailsData={setDetailsData}
       ></SelectedList>
     </div>
   );

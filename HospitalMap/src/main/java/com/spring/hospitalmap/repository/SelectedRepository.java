@@ -11,6 +11,6 @@ import com.spring.hospitalmap.entity.User;
 
 public interface SelectedRepository extends JpaRepository<Selected, SelectedId>{
 
-	List<Selected>  findByUserOrderByInsDateDesc(User user, Pageable pageable);
+	List<Selected>  findByUser(User user, Pageable pageable);
 
 }

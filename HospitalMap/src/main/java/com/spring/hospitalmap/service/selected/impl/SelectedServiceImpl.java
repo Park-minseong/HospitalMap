@@ -1,12 +1,14 @@
 package com.spring.hospitalmap.service.selected.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.spring.hospitalmap.entity.Selected;
+import com.spring.hospitalmap.entity.SelectedId;
 import com.spring.hospitalmap.entity.User;
 import com.spring.hospitalmap.repository.SelectedRepository;
 import com.spring.hospitalmap.service.selected.SelectedService;
@@ -19,7 +21,16 @@ public class SelectedServiceImpl implements SelectedService {
 	
 	@Override
 	public Selected saveInfo(Selected selected) {
-		return selectedRepository.save(selected);
+		SelectedId selectedId = new SelectedId();
+		selectedId.setUser(selected.getUser().getUserId());
+		selectedId.setYkiho(selected.getYkiho());
+		Optional<Selected> findSelected = selectedRepository.findById(selectedId);
+		if (findSelected.isEmpty()) {
+			return selectedRepository.save(selected);
+		} else {
+			return null;
+		}
+
 	}
 
 	@Override
@@ -27,7 +38,7 @@ public class SelectedServiceImpl implements SelectedService {
 		User user = new User();
 		user.setUserId(userId);
 		
-		return selectedRepository.findByUserOrderByInsDateDesc(user, pageable);
+		return selectedRepository.findByUser(user, pageable);
 	}
 
 }

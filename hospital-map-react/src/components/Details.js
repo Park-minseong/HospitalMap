@@ -3,7 +3,6 @@ import React from "react";
 
 const Details = ({ detailsData, selectedList, setSelectedList }) => {
   const onClickSave = () => {
-    setSelectedList([{ ...detailsData, insDate: "" }].concat(selectedList));
     axios
       .post(
         "/saveinfo",
@@ -16,7 +15,10 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
       )
       .then((response) => {
         if (response.data.result === "successed") {
-          setSelectedList(response.data.selectedList);
+          alert("저장했습니다.");
+          setSelectedList([...selectedList, response.data.savedSelected]);
+        } else if (response.data.result === "already") {
+          alert("이미 저장되어 있습니다.");
         }
       });
   };
@@ -35,15 +37,12 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
       {Object.keys(detailsData).length !== 0 && (
         <div>
           {detailsData.yadmNm}
-          {selectedList.findIndex(
-            (item) => item.ykiho === detailsData.ykiho
-          ) === -1 ? (
-            <button type="button" onClick={onClickSave}>
-              저장하기
-            </button>
-          ) : (
-            <button type="button">삭제하기</button>
-          )}
+
+          <button type="button" onClick={onClickSave}>
+            저장하기
+          </button>
+
+          <button type="button">삭제하기</button>
         </div>
       )}
     </div>

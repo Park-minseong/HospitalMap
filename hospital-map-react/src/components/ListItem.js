@@ -1,6 +1,9 @@
 import React from "react";
 
-const ListItem = ({ data }) => {
+const ListItem = ({ data, setDetailsData }) => {
+  const onClickItem = () => {
+    setDetailsData(data);
+  };
   return (
     <div
       id="ListItem"
@@ -17,6 +20,7 @@ const ListItem = ({ data }) => {
         justifyContent: "center",
         flexDirection: "column",
       }}
+      onClick={onClickItem}
     >
       <div>병원명: {data.yadmNm}</div>
       <div>

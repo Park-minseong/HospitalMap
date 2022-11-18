@@ -75,7 +75,14 @@ const Map = ({
   useEffect(() => {
     if (map !== undefined) {
       if (map.getLevel() <= 4) {
-        const newMarkers = [...markers];
+        const newMarkers = [];
+        setMarkers(() => {
+          markers.map((marker) => {
+            marker.setMap(null);
+            return marker;
+          });
+          return [];
+        });
         data.forEach((item) => {
           let position = new kakao.maps.LatLng(item.YPos, item.XPos);
           let marker = new kakao.maps.Marker({
@@ -141,13 +148,13 @@ const Map = ({
     console.log(markers);
     if (map !== undefined) {
       if (map.getLevel() > 4) {
-        // setMarkers(() => {
-        //   markers.map((marker) => {
-        //     marker.setMap(null);
-        //     return marker;
-        //   });
-        //   return [];
-        // });
+        setMarkers(() => {
+          markers.map((marker) => {
+            marker.setMap(null);
+            return marker;
+          });
+          return [];
+        });
       } else {
         let center = map.getCenter();
         setCenterXPos(center.getLng());
