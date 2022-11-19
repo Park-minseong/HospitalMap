@@ -2,24 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import ListItem from "./ListItem";
 import LoadingImg from "../images/loading2.gif";
+import { API_URL } from "../apiConfig";
 
 const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
   const [status, setStatus] = useState("");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const listBox = useRef();
   const bottom = useRef();
-
-  useEffect(() => {
-    setSize(parseInt(window.innerHeight / 80));
-  }, []);
-
-  useEffect(() => {
-    console.log(size);
-    if (size !== 0) getSelectedList();
-  }, [size]);
 
   useEffect(() => {
     listBox.current.onscroll = function (e) {
@@ -37,17 +28,22 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
         }
       }
     };
-  }, [page, selectedList]);
+    if (
+      isEnd === false &&
+      listBox.current.offsetHeight >= listBox.current.scrollHeight
+    )
+      getSelectedList();
+    console.log(selectedList);
+  }, [selectedList]);
 
   const getSelectedList = () => {
     axios
-      .get("/getSelectedList", {
+      .get(API_URL + "/getSelectedList", {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("ACCESS_TOKEN"),
         },
         params: {
           page: page,
-          size: size,
         },
       })
       .then((response) => {
@@ -56,8 +52,8 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
           if (response.data.selectedList.length === 0) {
             setIsEnd(true);
           } else {
-            setSelectedList([...selectedList, ...response.data.selectedList]);
             setPage(page + 1);
+            setSelectedList(selectedList.concat(response.data.selectedList));
             setIsEnd(false);
           }
         } else if (response.data.result === "userId is null") {
@@ -84,12 +80,11 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
     >
       {status === "유저정보가 없습니다." ? (
         <div>유저정보가 없습니다.</div>
-      ) : selectedList.length > 0 ? (
+      ) : (
+        selectedList.length > 0 &&
         selectedList.map((data, index) => (
           <ListItem key={index} data={data} setDetailsData={setDetailsData} />
         ))
-      ) : (
-        <div>저장된 병원이 없습니다.</div>
       )}
       <div style={{ textAlign: "center" }}>
         {isLoading ? (

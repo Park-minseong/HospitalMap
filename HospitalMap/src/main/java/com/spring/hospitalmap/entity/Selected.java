@@ -24,7 +24,7 @@ public class Selected {
 	private String ykiho;
 	
 	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="userId")
 	private User user;
 	

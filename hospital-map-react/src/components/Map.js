@@ -184,7 +184,7 @@ const Map = ({
       id="Map"
       style={{
         width: "100%",
-        height: "calc(100% - 200px)",
+        height: "calc(100% - 150px)",
         boxSizing: "border-box",
         border: " 1px solid gray",
       }}

@@ -41,4 +41,21 @@ public class SelectedServiceImpl implements SelectedService {
 		return selectedRepository.findByUser(user, pageable);
 	}
 
+	@Override
+	public void deleteInfoById(Selected selected) {
+		selectedRepository.delete(selected);
+	}
+
+	@Override
+	public Selected getSeletedOne(SelectedId selectedId) {
+		Optional<Selected> findSelected = selectedRepository.findById(selectedId);
+		if (findSelected.isEmpty()) {
+			System.out.println("있///////////////////////////////");
+			return null;
+		} else {
+			System.out.println("없///////////////////////////////");
+			return findSelected.get();
+		}
+	}
+
 }

@@ -137,7 +137,7 @@ public class UserController {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "c410f6367d298abcb2c4126b555146b0");
-		params.add("redirect_uri", "http://localhost:3000/oauth2/kakao");
+		params.add("redirect_uri", "https://pt.mayahouse.kr/oauth2/kakao");
 		params.add("code", code);
 
 		// HttpHeader와 HttpBody를 HttpEntity에 담기 (why? rt.exchange에서 HttpEntity객체를 받게 되어있다.)
@@ -180,6 +180,15 @@ public class UserController {
 		}
 		
 		return kakaoUser;
+	}
+	
+	@GetMapping("test")
+	public Map<String, Object> test(){
+		Map<String, Object> resMap = new HashMap<String, Object>();
+		
+		resMap.put("ddd", "Sdfdsgdfgd");
+		
+		return resMap;
 	}
 }
 
