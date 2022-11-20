@@ -6,7 +6,7 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
   const onClickSave = () => {
     axios
       .post(
-        API_URL + "/saveinfo",
+        API_URL + "/selected",
         { ...detailsData, xpos: detailsData.XPos, ypos: detailsData.YPos },
         {
           headers: {
@@ -26,15 +26,14 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
 
   const onClickDelete = () => {
     axios
-      .post(
-        API_URL + "/deleteinfo",
-        { ...detailsData, xpos: detailsData.XPos, ypos: detailsData.YPos },
-        {
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("ACCESS_TOKEN"),
-          },
-        }
-      )
+      .delete(API_URL + "/selected", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("ACCESS_TOKEN"),
+        },
+        params: {
+          ykiho: detailsData.ykiho,
+        },
+      })
       .then((response) => {
         if (response.data.result === "successed") {
           alert("삭제했습니다.");
@@ -58,7 +57,7 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
         border: "1px solid gray",
       }}
     >
-      {Object.keys(detailsData).length !== 0 && (
+      {Object.keys(detailsData).length !== 0 ? (
         <div style={{ textAlign: "center" }}>
           <button type="button" onClick={onClickSave}>
             저장하기
@@ -77,6 +76,8 @@ const Details = ({ detailsData, selectedList, setSelectedList }) => {
             </div>
           ) : null}
         </div>
+      ) : (
+        "마커를 클릭하여 상제정보 표시"
       )}
     </div>
   );

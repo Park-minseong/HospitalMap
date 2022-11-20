@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -56,7 +57,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			Map<String, Object> resMap = new HashMap<String, Object>();
-			resMap.put("error", "join failed");
+			resMap.put("error", e.getMessage());
 			return resMap;
 		}
 	}
@@ -85,10 +86,31 @@ public class UserController {
 
 		} catch (Exception e) {
 			Map<String, Object> resMap = new HashMap<String, Object>();
-			resMap.put("error", "login failed");
+			resMap.put("error", e.getMessage());
 			return resMap;
 		}
 	}
+	
+	@GetMapping("/getUserInfo")
+	public Map<String, Object> getUserInfo(@AuthenticationPrincipal String userId){
+		try {
+			Map<String, Object> resMap = new HashMap<String, Object>();
+			System.out.println(userId);
+
+			if (userId != "anonymousUser") {
+				resMap.put("user", userId);
+			} else {
+				resMap.put("user", null);
+			}
+			return resMap;
+
+		} catch (Exception e) {
+			Map<String, Object> resMap = new HashMap<String, Object>();
+			resMap.put("error", e.getMessage());
+			return resMap;
+		}
+	}
+	
 	
 	@GetMapping("/oauth2/kakao")
 	public Map<String, Object> kakaoLogin(@RequestParam String code){

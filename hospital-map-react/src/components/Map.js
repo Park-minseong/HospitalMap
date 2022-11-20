@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const { kakao } = window;
 
@@ -9,7 +9,6 @@ const Map = ({
   setCenterYPos,
   lat,
   long,
-  getDataApi,
   setDetailsData,
 }) => {
   const [map, setMap] = useState();
@@ -48,11 +47,13 @@ const Map = ({
   //맵 로딩 시 최초 1회 실행
   useEffect(() => {
     if (map !== undefined) {
+      const zoomControl = new kakao.maps.ZoomControl();
+      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
       //내위치 마커표시 시작
-      let position = new kakao.maps.LatLng(lat, long);
+      const position = new kakao.maps.LatLng(lat, long);
 
       // 마커 위에 표시할 인포윈도우를 생성한다
-      var myInfowindow = new kakao.maps.InfoWindow({
+      const myInfowindow = new kakao.maps.InfoWindow({
         content:
           '<div style="text-align:center; width:150px; padding:5px; font-size: 15px">현재 위치</div>', // 인포윈도우에 표시할 내용
       });
