@@ -12,7 +12,7 @@ public interface SelectedService {
 
 	Page<Selected> getSelectedListByUserId(String userId,Pageable pageable);
 
-	Selected getSeletedOne(SelectedId selectedId);
+	Boolean getHaveItem(SelectedId selectedId);
 
 	void deleteInfoById(SelectedId selectedId);
 

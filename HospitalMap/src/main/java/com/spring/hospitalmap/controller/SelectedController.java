@@ -68,11 +68,11 @@ public class SelectedController {
 			selectedId.setUser(userId);
 			selectedId.setYkiho(ykiho);
 			
-			Selected savedSelected = selectedService.getSeletedOne(selectedId);
+			Boolean hasSelected = selectedService.getHaveItem(selectedId);
 			
 			Map<String, Object> resMap = new HashMap<String, Object>();
 
-			if (savedSelected != null) {
+			if (hasSelected) {
 				selectedService.deleteInfoById(selectedId);
 				resMap.put("result", "successed");
 				return resMap;

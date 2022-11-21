@@ -47,12 +47,12 @@ public class SelectedServiceImpl implements SelectedService {
 	}
 
 	@Override
-	public Selected getSeletedOne(SelectedId selectedId) {
+	public Boolean getHaveItem(SelectedId selectedId) {
 		Optional<Selected> findSelected = selectedRepository.findById(selectedId);
 		if (findSelected.isEmpty()) {
-			return null;
+			return false;
 		} else {
-			return findSelected.get();
+			return true;
 		}
 	}
 
