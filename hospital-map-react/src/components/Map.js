@@ -146,7 +146,6 @@ const Map = ({
   }, [data, markers]);
 
   const reloadData = () => {
-    console.log(markers);
     if (map !== undefined) {
       if (map.getLevel() > 4) {
         setMarkers(() => {

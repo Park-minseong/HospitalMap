@@ -12,7 +12,6 @@ const Social = () => {
       axios
         .get(API_URL + "/oauth2/kakao", { params: { code: code } })
         .then((response) => {
-          console.log(response);
           if (response.data.user !== null) {
             window.sessionStorage.setItem(
               "ACCESS_TOKEN",

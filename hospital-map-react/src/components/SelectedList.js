@@ -33,7 +33,6 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
       listBox.current.offsetHeight >= listBox.current.scrollHeight
     )
       getSelectedList();
-    console.log(selectedList);
   }, [selectedList]);
 
   const getSelectedList = () => {

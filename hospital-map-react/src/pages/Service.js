@@ -37,7 +37,6 @@ const Service = ({ user }) => {
         },
       })
       .then((response) => {
-        console.log(response);
         if (response.data.user !== null) {
           setUserId(response.data.user);
         } else {
@@ -46,7 +45,7 @@ const Service = ({ user }) => {
           navigate("/login");
         }
       });
-  }, [sessionStorage.getItem("ACCESS_TOKEN")]);
+  }, []);
 
   const getDataApi = useCallback(() => {
     axios
@@ -54,7 +53,6 @@ const Service = ({ user }) => {
         `https://apis.data.go.kr/B551182/hospInfoServicev2/getHospBasisList?serviceKey=kS3LFJtXMu8jwui1luQ%2Fc5W2TWBrWX3BXa9jxOYO6s6bF3%2Bfp80rND5ux8MvizXc4BrqltuFIVM74BhzM%2FAMPQ%3D%3D&xPos=${centerXPos}&yPos=${centerYPos}&numOfRows=1000&radius=${radius}`
       )
       .then((response) => {
-        console.log(response.data);
         setData([...response.data.response.body.items.item]);
       });
   }, [radius, centerXPos, centerYPos]);
@@ -123,6 +121,7 @@ const Service = ({ user }) => {
               style={{ fontSize: "0.5em", height: "20px" }}
               onClick={() => {
                 sessionStorage.setItem("ACCESS_TOKEN", "");
+                navigate("/login", { replace: true });
               }}
             >
               로그아웃

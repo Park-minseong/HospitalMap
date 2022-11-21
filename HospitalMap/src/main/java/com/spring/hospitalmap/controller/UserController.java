@@ -95,7 +95,6 @@ public class UserController {
 	public Map<String, Object> getUserInfo(@AuthenticationPrincipal String userId){
 		try {
 			Map<String, Object> resMap = new HashMap<String, Object>();
-			System.out.println(userId);
 
 			if (userId != "anonymousUser") {
 				resMap.put("user", userId);
@@ -122,17 +121,17 @@ public class UserController {
 			KakaoUser kakaoUser =getKakaoUserInfo(kakotoken.getAccess_token());// kakotoken에 담긴 엑세스토큰에서 access_token을 사용하여 유저정보를 불러오는 메소드
 			
 			User user = new User();
-			System.out.println(1);
+			
 			if(userService.getUserInfoByUserId("kakao"+kakaoUser.getId().toString()) == null) {
-				System.out.println(2);
+		
 				user.setUserId("kakao"+kakaoUser.getId().toString());
-				System.out.println(2);
+		
 				userService.join(user);
 			}else {
 				user = userService.getUserInfoByUserId("kakao"+kakaoUser.getId().toString());
-				System.out.println(3);
+			
 			}
-			System.out.println(4);
+			
 			user.setToken(jwtTokenProvider.create(user));
 			
 			resMap.put("user", user);
