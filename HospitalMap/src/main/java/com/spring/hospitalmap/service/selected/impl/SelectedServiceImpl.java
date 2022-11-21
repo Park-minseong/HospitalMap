@@ -1,9 +1,9 @@
 package com.spring.hospitalmap.service.selected.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class SelectedServiceImpl implements SelectedService {
 	}
 
 	@Override
-	public List<Selected> getSelectedListByUserId(String userId,Pageable pageable) {
+	public Page<Selected> getSelectedListByUserId(String userId,Pageable pageable) {
 		User user = new User();
 		user.setUserId(userId);
 		
@@ -42,18 +42,16 @@ public class SelectedServiceImpl implements SelectedService {
 	}
 
 	@Override
-	public void deleteInfoById(Selected selected) {
-		selectedRepository.delete(selected);
+	public void deleteInfoById(SelectedId selectedId) {
+		selectedRepository.deleteById(selectedId);
 	}
 
 	@Override
 	public Selected getSeletedOne(SelectedId selectedId) {
 		Optional<Selected> findSelected = selectedRepository.findById(selectedId);
 		if (findSelected.isEmpty()) {
-			System.out.println("있///////////////////////////////");
 			return null;
 		} else {
-			System.out.println("없///////////////////////////////");
 			return findSelected.get();
 		}
 	}

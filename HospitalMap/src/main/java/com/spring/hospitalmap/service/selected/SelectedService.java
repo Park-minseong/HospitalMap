@@ -1,7 +1,6 @@
 package com.spring.hospitalmap.service.selected;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.spring.hospitalmap.entity.Selected;
@@ -11,10 +10,10 @@ public interface SelectedService {
 
 	Selected saveInfo(Selected selected);
 
-	List<Selected> getSelectedListByUserId(String userId,Pageable pageable);
+	Page<Selected> getSelectedListByUserId(String userId,Pageable pageable);
 
 	Selected getSeletedOne(SelectedId selectedId);
 
-	void deleteInfoById(Selected selected);
+	void deleteInfoById(SelectedId selectedId);
 
 }

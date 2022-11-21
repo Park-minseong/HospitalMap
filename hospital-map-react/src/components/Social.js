@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { API_URL } from "../apiConfig";
 
@@ -12,7 +12,6 @@ const Social = () => {
       axios
         .get(API_URL + "/oauth2/kakao", { params: { code: code } })
         .then((response) => {
-          console.log(response);
           if (response.data.user !== null) {
             window.sessionStorage.setItem(
               "ACCESS_TOKEN",

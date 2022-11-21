@@ -33,12 +33,11 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
       listBox.current.offsetHeight >= listBox.current.scrollHeight
     )
       getSelectedList();
-    console.log(selectedList);
   }, [selectedList]);
 
   const getSelectedList = () => {
     axios
-      .get(API_URL + "/getSelectedList", {
+      .get(API_URL + "/selected", {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("ACCESS_TOKEN"),
         },
@@ -47,13 +46,14 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
         },
       })
       .then((response) => {
-        console.log("통신");
         if (response.data.result === "successed") {
-          if (response.data.selectedList.length === 0) {
+          if (response.data.selectedList.content.length === 0) {
             setIsEnd(true);
           } else {
             setPage(page + 1);
-            setSelectedList(selectedList.concat(response.data.selectedList));
+            setSelectedList(
+              selectedList.concat(response.data.selectedList.content)
+            );
             setIsEnd(false);
           }
         } else if (response.data.result === "userId is null") {
@@ -70,7 +70,7 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
         marginLeft: "10px",
         width: "400px",
         minWidth: "400px",
-        height: "100%",
+        height: "calc(100% - 35px)",
         padding: "5px 1px 5px 5px",
         boxSizing: "border-box",
         border: "1px solid gray",
@@ -80,11 +80,12 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
     >
       {status === "유저정보가 없습니다." ? (
         <div>유저정보가 없습니다.</div>
-      ) : (
-        selectedList.length > 0 &&
+      ) : selectedList.length > 0 ? (
         selectedList.map((data, index) => (
           <ListItem key={index} data={data} setDetailsData={setDetailsData} />
         ))
+      ) : (
+        <div>저장된 병원이 없습니다.</div>
       )}
       <div style={{ textAlign: "center" }}>
         {isLoading ? (
@@ -94,9 +95,7 @@ const SelectedList = ({ selectedList, setSelectedList, setDetailsData }) => {
             style={{ width: "20px", height: "20px" }}
           />
         ) : (
-          <div ref={bottom} style={{ height: "20px" }}>
-            {isEnd ? "더 이상 저장된 병원이 없습니다." : ""}
-          </div>
+          <div ref={bottom} style={{ height: "20px" }}></div>
         )}
       </div>
     </div>
